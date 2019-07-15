@@ -1,6 +1,6 @@
-
+import {getCarList} from "@/services"
 const state={
-    searchlist:[]
+    carList:[]
 }
 
 const getters = {
@@ -8,11 +8,17 @@ const getters = {
 }
 //异步
 const actions={
-
+    async getCarList({commit},payload){
+        let res=await getCarList(payload)
+        console.log(res)
+        commit("updateCarList",res.data)
+    }
 }
 //同步
 const mutations={
-
+    updateCarList(state,payload){
+        state.carList=payload
+    }
 
 }
 
