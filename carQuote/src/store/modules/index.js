@@ -1,7 +1,8 @@
-import { getListData } from "../../services/";
+import { getListData,getCarList } from "../../services/";
 
 const state = {
-  listData: {}
+  listData: {},
+  carList:[]
 };
 
 const getters = {};
@@ -10,6 +11,11 @@ const actions = {
   async getListData({ commit }) {
     const data = await getListData();
     commit("getLists", data.data);
+  },
+  async getCarList({commit},payload){
+    let res=await getCarList(payload)
+    commit("updateCarList",res.data)
+    return res
   }
 };
 //同步
@@ -40,6 +46,9 @@ const mutations = {
       }
     }
     return (state.listData = obj);
+  },
+  updateCarList(state,payload){
+    state.carList=payload
   }
 };
 

@@ -19,15 +19,15 @@
         @click="floorTab(index)"
       >{{key}}</span>
     </div>
-    <my-CarList v-if="flag"></my-CarList>
+    <my-CarList :styles="styles"></my-CarList>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import BScroll from "better-scroll";
 import { mapActions, mapState } from "vuex";
 import myCarList from "@/components/carList.vue";
-import BScroll from "better-scroll";
 
 export default Vue.extend({
   name: "home",
@@ -38,21 +38,31 @@ export default Vue.extend({
     return {
       flag: false,
       sec: null,
+      styles:{
+        width:'0'
+      }
     };
   },
   computed: {
     ...mapState({
-      listData: (state: any) => state.homes.listData
+      listData: (state: any) => state.index.listData
     })
   },
   methods: {
     ...mapActions({
-      getListData: "homes/getListData"
+      getListData: "index/getListData",
+      getCarList:"index/getCarList"
     }),
-    drawerFlag(id) {
-      this.flag = true;
+    async drawerFlag(id:any) {
+      let data:any=await this.getCarList(id)
+      if(data.code===1){
+        let obj:{width:string}={
+          width:'75%'
+        }
+        this.styles=obj
+      }
     },
-    floorTab(index) {
+    floorTab(index:any) {
       let child: any = this.$refs.secList;
       this.sec.scrollToElement(child[index], 200);
     },
@@ -62,7 +72,6 @@ export default Vue.extend({
   },
   created() {
     this.getListData();
-
     this.$nextTick(() => {
       this.sec = new BScroll(".wrap", {
         probeType: 3,
