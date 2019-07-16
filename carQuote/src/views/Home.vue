@@ -70,6 +70,11 @@ export default Vue.extend({
       this.sec.scrollToElement(this.$refs.secList[0], 200);
     }
   },
+  mounted(){
+    this.$bus.$on("width",(obj:any)=>{
+        this.styles=obj
+    })
+  },
   created() {
     this.getListData();
     this.$nextTick(() => {

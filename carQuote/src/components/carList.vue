@@ -1,10 +1,15 @@
 <template>
-    <div :style="styles" class="drawer">
+    <div :style="styles" class="drawer"
+        @touchstart='touchStart'
+        @touchmove='touchMove'
+    >
         <div class="car_list"
         v-for="(item) in carList" :key="item.GroupId"
         >
             <h3>{{item.GroupName}}</h3>
-            <dl v-for="(val) in item.GroupList" :key="val.SerialID">
+            <dl v-for="(val) in item.GroupList" :key="val.SerialID" 
+            @click="goDetail(val.SerialID)"
+            >
                 <dt>
                     <img :src="val.Picture" alt="">
                 </dt>
@@ -18,7 +23,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import {mapState} from "vuex"
+import {mapState,mapActions} from "vuex"
 
 export default Vue.extend({
     props:["styles"],
@@ -27,11 +32,33 @@ export default Vue.extend({
             carList:(state:any)=>state.index.carList
         })
     },
+    data(){
+        return {
+            startloca:0
+        }
+    },
+    methods:{
+        ...mapActions({
+            getCarDetail: "detail/getCarDetail"
+        }),
+        async goDetail(id:any){
+            let data=await this.getCarDetail(id)
+            if(data.code===1){
+                this.$router.push("/cardetail")
+            }
+        },
+        touchStart(e:any){
+            this.startloca=e.touches[0].clientX
+        },
+        touchMove(e:any){
+            if(e.touches[0].clientX-this.startloca>50){
+                this.$bus.$emit("width",{width:"0",transition: "all .2s ease-in-out"})
+            }
+        }
+    },
     created(){
-        console.log(this.styles)
     },
     mounted(){
-        console.log(this.styles)
     },
 })
 </script>
