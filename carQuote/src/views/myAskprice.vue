@@ -87,7 +87,7 @@ export default Vue.extend({
   },
   created() {
     this.getQuestionData({
-      carId: "131476",
+      carId: this.$route.params.id,
       cityId: "201"
     });
     this.getCityData();

@@ -104,7 +104,11 @@ export default Vue.extend({
       this.current = "";
     }
   },
-
+  mounted(){
+    this.$bus.$on("width",(obj:any)=>{
+        this.styles=obj
+    })
+  },
   created() {
     this.$nextTick(() => {
       this.getListData();
@@ -113,8 +117,7 @@ export default Vue.extend({
         click: true
       });
     });
-  },
-  mounted() {}
+  }
 });
 </script>
 <style lang="scss" scoped>
