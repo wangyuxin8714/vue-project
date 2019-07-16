@@ -32,11 +32,13 @@ const mutations = {
       }
     });
 
+    //添加对象
     var obj = {};
     arr.forEach(item => {
       obj[item] = [];
     });
 
+    //获取字母对应的数据
     for (var i in obj) {
       if (payload.find(item => item.Spelling.slice(0, 1) === i)) {
         obj[i] = [
