@@ -63,7 +63,8 @@ export default Vue.extend({
             getYearTab:"detail/getYearTab"
         }),
         ...mapActions({
-            getImgList:"img/getImgList"
+            getImgList:"img/getImgList",
+            getCarDetail: "detail/getCarDetail"
         }),
         goQuestion(id:any){
             this.$router.push({name:"question",params:{id}})
@@ -75,11 +76,13 @@ export default Vue.extend({
         async goImg(){
             let data=await this.getImgList(this.carDetail.SerialID)
             if(data.code===1){
-                this.$router.push("/img")
+                this.$router.push({name:"img",params:{id:this.carDetail.SerialID}})
             }
         }
     },
     created(){
+        let id=window.sessionStorage.getItem("SerialID")
+        this.getCarDetail(id)
         this.getYearTab("全部")
     },
     mounted(){}
