@@ -67,20 +67,12 @@ export default Vue.extend({
         this.styles = obj;
       }
     },
-    touchstart(e) {
+    touchstart(e: any) {
       this.showFlag = true;
-
-      const ind = Array.from(this.$refs.spelling.children).findIndex(item => {
-        if (item.innerHTML !== "#") {
-          return item.innerHTML === e.target.innerHTML;
-        } else {
-          return 0;
-        }
-      });
-      this.sec.scrollToElement(this.$refs.secList[ind-1], 200);
+      this.touchmove(e);
     },
 
-    touchmove(e) {
+    touchmove(e: any) {
       let dataLength = this.$refs.spelling.children.length;
       let pageY = e.touches[0].pageY;
       let letterHeight = ((0.4 * window.innerWidth) / 750) * 100;
@@ -99,15 +91,15 @@ export default Vue.extend({
       this.sec.scrollToElement(this.$refs.secList[letterIndex - 1], 200);
     },
 
-    touchend(e) {
+    touchend(e: any) {
       this.showFlag = false;
       this.current = "";
     }
   },
-  mounted(){
-    this.$bus.$on("width",(obj:any)=>{
-        this.styles=obj
-    })
+  mounted() {
+    this.$bus.$on("width", (obj: any) => {
+      this.styles = obj;
+    });
   },
   created() {
     this.$nextTick(() => {

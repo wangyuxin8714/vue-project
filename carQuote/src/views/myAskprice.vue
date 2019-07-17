@@ -26,7 +26,7 @@
             </li>
             <li @click="cityClick">
               <span>城市</span>
-              <span>{{cityStr}}</span>
+              <span>{{cityName}}</span>
             </li>
           </ul>
           <div class="confim_btn">
@@ -36,10 +36,10 @@
         <div class="content_carType">
           <p>选择报价经销商</p>
           <ul>
-            <li v-for="(item,index) in questionObj.list" :key="index">
+            <li v-for="(item,index) in questionObj.list" :key="index" :class="{active:item.flag}" @click="sigleChoose(item.flag,index)">
               <p class="carType_first">
                 <span>{{item.dealerShortName}}</span>
-                <b>{{item.promotePrice}}万</b>
+                <b>{{item.promotePrice.slice(0,item.promotePrice.indexOf(".")+1)}}万</b>
               </p>
               <p class="carType_second">
                 <span>{{item.address}}</span>
@@ -49,17 +49,18 @@
           </ul>
         </div>
       </div>
+      <footer class="wrap_foot">
+        <button>询最低价</button>
+      </footer>
     </div>
-    <footer class="wrap_foot">
-      <button>询最低价</button>
-    </footer>
-    <my-chooseCity v-if="showCity" :cityStr="cityStr"/>
+
+    <my-chooseCity v-if="showCity"/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapMutations } from "vuex";
 import myChooseCity from "@/components/chooseCIty.vue";
 
 export default Vue.extend({
@@ -67,30 +68,48 @@ export default Vue.extend({
   components: { myChooseCity },
   data() {
     return {
-      showCity: false
+      cityName: "北京"
     };
   },
   computed: {
     ...mapState({
       questionObj: (state: any) => state.question.questionObj,
-      cityStr: (state: any) => state.question.cityStr
+      showCity: (state: any) => state.question.showCity
     })
   },
   methods: {
     ...mapActions({
-      getQuestionData: "question/getQuestionData",
-      getCityData: "question/getCityData"
+      getQuestionData: "question/getQuestionData"
     }),
-    cityClick(){
-        this.showCity = true;
+    ...mapMutations({
+      changeShowCity: "question/changeShowCity",
+      changeFlag:"question/changeFlag"
+    }),
+    //点击城市出现选择城市
+    cityClick() {
+      this.changeShowCity(true);
+    },
+    //点击圆圈选中与否
+    sigleChoose(flag,index){
+      this.changeFlag({flag,index});
     }
   },
   created() {
+    //接收城市id与城市名称
+    this.$bus.$on("getCity", (res: any) => {
+      this.getQuestionData({
+        carId: this.$route.params.id,
+        cityId: res.id
+      });
+      this.cityName = res.name;
+    });
+  },
+  mounted() {
+    //默认获取数据渲染
     this.getQuestionData({
       carId: this.$route.params.id,
       cityId: "201"
     });
-    this.getCityData();
   }
 });
 </script>
@@ -112,6 +131,9 @@ export default Vue.extend({
       align-items: center;
       text-align: center;
       justify-content: center;
+      position: fixed;
+      left: 0;
+      top: 0;
       z-index: 99;
       p {
         color: #fff;
@@ -128,6 +150,7 @@ export default Vue.extend({
       height: auto;
       background: #f4f4f4;
       overflow-y: scroll;
+      margin-top: 0.6rem;
       .content_imgPic {
         background: #fff;
         padding: 0 0.24rem;
@@ -254,7 +277,6 @@ export default Vue.extend({
           background: #fff;
           padding: 0 0.18rem;
           box-sizing: border-box;
-
           li {
             position: relative;
             padding: 0.26rem 0 0.26rem 0.54rem;
@@ -268,7 +290,6 @@ export default Vue.extend({
             }
             .carType_first {
               font-size: 0.3rem;
-
               b {
                 font-size: 0.24rem;
                 color: red;
@@ -280,11 +301,17 @@ export default Vue.extend({
               color: #a2a2a2;
               span:first-child {
                 flex: 1;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
               }
               span:last-child {
                 width: 0.8rem;
                 text-align: center;
                 margin-left: 1.5rem;
+                font-size: 0.22rem;
               }
             }
           }
