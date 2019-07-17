@@ -4,6 +4,8 @@ import Home from '@/views/Home.vue'
 import CarDetail from '@/views/cardetail.vue'
 import Img from '@/views/img.vue'
 import Question from "@/views/myAskprice.vue"
+import Color from "@/views/carColor.vue"
+import Type from "@/views/type.vue"
 
 Vue.use(Router)
 
@@ -12,6 +14,14 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/type',
+      name: 'type',
+      component: Type
+    },{
+      path: '/color',
+      name: 'color',
+      component: Color
+    },{
       path: '/question',
       name: 'question',
       component: Question

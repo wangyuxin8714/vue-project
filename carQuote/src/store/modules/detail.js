@@ -3,7 +3,8 @@ import { getCarDetail} from "../../services/";
 const state = {
     carDetail:{},
     yearList:["全部"],
-    carlist:[]
+    carlist:[],
+    yearData:[]
 };
 
 const getters = {};
@@ -12,9 +13,8 @@ const actions = {
     //获取汽车详情
   async getCarDetail({ commit },payload) {
     const res = await getCarDetail(payload);
-    // console.log(res)
     commit("updateCarDetail", res.data);
-    return res
+      return res
     },
   
 };
@@ -26,16 +26,19 @@ const mutations = {
           state.yearList.push(item.market_attribute.year)
         })
         state.yearList=[...new Set(state.yearList)]
+        state.yearData=state.yearList.slice(1)
     },
     getYearTab(state,payload){
-      console.log(payload)
+      console.log("payload",payload)
       let arr={}
       arr={...arr,...state.carDetail}
       if(payload!=="全部"){
+        console.log("111111")
         arr.list=arr.list.filter(item=>item.market_attribute.year===payload)
       }
       state.carlist=[]
       arr.list.forEach((item)=>{
+        console.log("222222")
         let ind=state.carlist.findIndex(val=>val.title===(item.exhaust_str+"/"+item.max_power_str+" "+item.inhale_type))
         if(ind===-1){
           state.carlist.push({

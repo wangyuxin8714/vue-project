@@ -20,3 +20,18 @@ export let getCarDetail = params => {
 export let getImgList = params => {
   return request.get("/v2-car-getImageList.html?SerialID="+params);
 };
+
+//获取全部图片列表
+export let getAllImgList = params => {
+  return request.get(`/v2-car-getCategoryImageList.html?SerialID=${params.SerialID}&ImageID=${params.ImageID}&Page=${params.Page}&PageSize=${params.PageSize}`);
+};
+
+//获取颜色
+export let getColor = params => {
+  return request.get("/v2-car-getModelImageYearColor.html?SerialID="+params);
+};
+
+//颜色选择
+export let colorSelect = params => {
+  return request.get(`/v2-car-getImageList.html?SerialID=${params.SerialID}&ColorID=${params.ColorID}`);
+};

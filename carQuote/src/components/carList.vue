@@ -35,6 +35,7 @@ export default Vue.extend({
       getCarDetail: "detail/getCarDetail"
     }),
     async goDetail(id: any) {
+      window.sessionStorage.setItem("SerialID",id)
       let data = await this.getCarDetail(id);
       if (data.code === 1) {
         this.$router.push("/cardetail");
