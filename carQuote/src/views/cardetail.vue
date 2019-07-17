@@ -77,15 +77,12 @@ export default Vue.extend({
             if(data.code===1){
                 this.$router.push("/img")
             }
-
         }
     },
     created(){
         this.getYearTab("全部")
     },
-    mounted(){
-
-    }
+    mounted(){}
 })
 </script>
 <style scoped lang="scss">
@@ -241,6 +238,4 @@ export default Vue.extend({
         font-size: .24rem;
     }
 }
-
-
 </style>

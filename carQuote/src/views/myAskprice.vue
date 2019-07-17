@@ -6,7 +6,7 @@
         <img src="/img/wen.png" alt>
       </header>
       <div class="header_content">
-        <div class="content_imgPic">
+        <div class="content_imgPic" @click="goToType">
           <img :src="questionObj.details.serial.Picture" alt>
           <div class="content_imgPic_rig">
             <p>{{questionObj.details.serial.AliasName}}</p>
@@ -18,11 +18,11 @@
           <ul>
             <li>
               <span>姓名</span>
-              <input type="text" placeholder="输入你的真实中文姓名" maxlength="4">
+              <input type="text" placeholder="输入你的真实中文姓名" maxlength="4" v-model="nameVal">
             </li>
             <li>
               <span>手机</span>
-              <input type="text" placeholder="输入你的真实手机姓名" maxlength="11">
+              <input type="text" placeholder="输入你的真实手机姓名" maxlength="11" v-model="phoneVal">
             </li>
             <li @click="cityClick">
               <span>城市</span>
@@ -30,13 +30,18 @@
             </li>
           </ul>
           <div class="confim_btn">
-            <button>询最低价</button>
+            <button @click="confimBtn">询最低价</button>
           </div>
         </div>
         <div class="content_carType">
           <p>选择报价经销商</p>
           <ul>
-            <li v-for="(item,index) in questionObj.list" :key="index" :class="{active:item.flag}" @click="sigleChoose(item.flag,index)">
+            <li
+              v-for="(item,index) in questionObj.list"
+              :key="index"
+              :class="{active:item.flag}"
+              @click="sigleChoose(item.flag,index)"
+            >
               <p class="carType_first">
                 <span>{{item.dealerShortName}}</span>
                 <b>{{item.promotePrice.slice(0,item.promotePrice.indexOf(".")+1)}}万</b>
@@ -68,7 +73,11 @@ export default Vue.extend({
   components: { myChooseCity },
   data() {
     return {
-      cityName: "北京"
+      cityName: "北京",
+      cityId: "201",
+      carId: this.$route.params.id,
+      nameVal: "",
+      phoneVal: ""
     };
   },
   computed: {
@@ -83,32 +92,59 @@ export default Vue.extend({
     }),
     ...mapMutations({
       changeShowCity: "question/changeShowCity",
-      changeFlag:"question/changeFlag"
+      changeFlag: "question/changeFlag"
     }),
     //点击城市出现选择城市
     cityClick() {
       this.changeShowCity(true);
     },
     //点击圆圈选中与否
-    sigleChoose(flag,index){
-      this.changeFlag({flag,index});
+    sigleChoose(flag, index) {
+      this.changeFlag({ flag, index });
+    },
+    //点击到查看类型页面
+    goToType() {
+      this.$router.push("/typechoose");
+    },
+    //点击询问最低价
+    confimBtn() {
+      //正则匹配姓名
+      if (this.nameVal === "" && !/^[\u4E00-\u9FA5]{2,4}$/.test(this.nameVal)) {
+        return false;
+      } //正则判断手机号
+      if (
+        this.phoneVal === "" &&
+        !/^1([38]\d|5[0-35-9]|7[3678])\d{8}$/.test(this.phoneVal)
+      ) {
+        return false;
+      }
     }
   },
   created() {
-    //接收城市id与城市名称
-    this.$bus.$on("getCity", (res: any) => {
-      this.getQuestionData({
-        carId: this.$route.params.id,
-        cityId: res.id
-      });
-      this.cityName = res.name;
+    //默认获取数据渲染
+    this.getQuestionData({
+      carId: this.carId,
+      cityId: this.cityId
     });
   },
   mounted() {
-    //默认获取数据渲染
-    this.getQuestionData({
-      carId: this.$route.params.id,
-      cityId: "201"
+    //接收城市id与城市名称
+    this.$bus.$on("getCity", (res: any) => {
+      this.getQuestionData({
+        carId: this.carId,
+        cityId: res.id
+      });
+      this.cityId = res.id;
+      this.cityName = res.name;
+    });
+    //改变type类型
+    this.$bus.$on("getType", (res: any) => {
+      if (res.id !== "undefined") {
+        this.getQuestionData({
+          carId: res.id,
+          cityId: this.cityId
+        });
+      }
     });
   }
 });
@@ -170,6 +206,7 @@ export default Vue.extend({
         .content_imgPic_rig {
           margin-left: 0.2rem;
           flex: 1;
+          margin-right: 0.5rem;
           p:first-child {
             font-size: 0.38rem;
             margin-bottom: 15px;
@@ -293,6 +330,7 @@ export default Vue.extend({
               b {
                 font-size: 0.24rem;
                 color: red;
+                font-weight: normal;
               }
             }
             .carType_second {

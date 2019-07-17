@@ -8,9 +8,7 @@
 *{
   margin: 0;
   padding: 0;
-  font-size: 15px;
   list-style: none;
-
 }
 html,body,#app{
   width: 100%;

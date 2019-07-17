@@ -18,8 +18,10 @@ const getters = {};
 const actions = {
   //获取询问时的数据
   async getQuestionData({ commit }, payload) {
-    const data = await getQuestionData(payload);
-    commit("getQuestions", data.data);
+    if (payload.carId !== "undefind") {
+      const data = await getQuestionData(payload);
+      commit("getQuestions", data.data);
+    }
   },
 
   //获取城市数据
@@ -44,18 +46,20 @@ const actions = {
 const mutations = {
   getQuestions(state, payload) {
     //添加每条数据的选中状态
-    payload.list = payload.list.map((item, index) => {
-      if (index < 3) {
-        item.flag = true;
-      } else {
-        item.flag = false;
-      }
-      return item;
-    });
+    payload.list =
+      payload.list &&
+      payload.list.map((item, index) => {
+        if (index < 3) {
+          item.flag = true;
+        } else {
+          item.flag = false;
+        }
+        return item;
+      });
     return (state.questionObj = { ...payload });
   },
   //点击单选  改变flag
-  changeFlag(state, {flag,index}) {
+  changeFlag(state, { flag, index }) {
     const data = state.questionObj.list[index];
     data.flag = !data.flag;
   },
