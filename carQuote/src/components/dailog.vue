@@ -1,7 +1,7 @@
 <template>
   <div class="mask">
       <div class="dailog">
-          <h3>请输入{{dialog}}</h3>
+          <h3>{{dialog}}</h3>
           <p @click="$emit('goodBtn')">好</p>
       </div>
   </div>

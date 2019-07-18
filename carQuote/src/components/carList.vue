@@ -4,7 +4,7 @@
       <h3>{{item.GroupName}}</h3>
       <dl v-for="(val) in item.GroupList" :key="val.SerialID" @click="goDetail(val.SerialID)">
         <dt>
-          <img :src="val.Picture" alt />
+          <img v-lazy="val.Picture" alt />
         </dt>
         <dd>
           <h4>{{val.AliasName}}</h4>

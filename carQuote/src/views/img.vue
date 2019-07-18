@@ -15,7 +15,7 @@
                 <ul v-for="(item) in imgList" :key="item.Id">
                     <li v-for="(val,index) in item.List" :key="index">
                         <img  @click="imgDetailShow(item.Id,index,item.Count)"
-                            :src="val.Url" 
+                            v-lazy="val.Url" 
                          alt="">
                          <p v-if="index===0" @click="imgListFlag(item.Id)">
                              <span>{{item.Name}}</span>
@@ -28,7 +28,7 @@
                 <ul >
                     <li v-for="(val,index) in imgAllList.List" :key="index" >
                         <img @click="imgShow(index,imgAllList.Count)"
-                            :src="val.Url" 
+                            v-lazy="val.Url" 
                          alt="">
                     </li>
                 </ul>
@@ -38,7 +38,7 @@
                     <div class="swiper-slide" 
                     v-for="(val,index) in imgAllList.List" :key="index">
                         <li class="lis" @click="imgDetailHead">
-                            <img :src="val.Url" alt="">
+                            <img v-lazy="val.Url" alt="">
                         </li>
                     </div>
                 </div>

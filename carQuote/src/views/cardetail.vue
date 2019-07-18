@@ -1,7 +1,7 @@
 <template>
     <div class="wrap">
         <div class="banner" @click="goImg">
-            <img :src="carDetail.CoverPhoto" alt="">
+            <img v-lazy="carDetail.CoverPhoto" alt="">
             <span>{{carDetail.pic_group_count}}张照片</span>
         </div>
         <div class="header">

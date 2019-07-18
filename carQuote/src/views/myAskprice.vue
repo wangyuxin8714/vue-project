@@ -1,13 +1,13 @@
 <template>
   <div class="wrap">
     <div class="wrap_header">
-      <header class="header_head">
+      <header class="header_head" @click="headerBtn">
         <p>可向商家咨询最低价,商家及时回复</p>
         <img src="/img/wen.png" alt>
       </header>
       <div class="header_content">
-        <div class="content_imgPic" @click="goToType">
-          <img :src="questionObj.details.serial.Picture" alt>
+        <div class="content_imgPic" @click="goToType" v-if="questionObj.details">
+          <img v-lazy="questionObj.details.serial.Picture" alt>
           <div class="content_imgPic_rig">
             <p>{{questionObj.details.serial.AliasName}}</p>
             <p>{{questionObj.details.market_attribute.year}}款 {{questionObj.details.car_name}}</p>
@@ -62,6 +62,7 @@
     <my-chooseCity v-if="showCity"/>
     <my-dailog v-if="dialogFlag" :dialog="dialog" @goodBtn="goodBtn"/>
     <successDialog v-if="succedDia" @trueBtn="trueBtn"/>
+    <serverDialog v-if="serverFlag" @serverBtn="serverBtn" />
   </div>
 </template>
 
@@ -71,10 +72,11 @@ import { mapActions, mapState, mapMutations } from "vuex";
 import myChooseCity from "@/components/chooseCity.vue";
 import myDailog from "@/components/dailog.vue";
 import successDialog from "@/components/successDialog.vue";
+import serverDialog from "@/components/serverDialog.vue"
 
 export default Vue.extend({
   name: "myAskprice",
-  components: { myChooseCity, myDailog, successDialog },
+  components: { myChooseCity, myDailog, successDialog,serverDialog },
   data() {
     return {
       cityName: "北京",
@@ -85,7 +87,8 @@ export default Vue.extend({
       dialogFlag: false,
       dialog: "",
       typeTit: "",
-      succedDia: false
+      succedDia: false,
+      serverFlag:false
     };
   },
   computed: {
@@ -121,7 +124,7 @@ export default Vue.extend({
       //正则匹配姓名
       if (this.nameVal === "" && !/^[\u4E00-\u9FA5]{2,4}$/.test(this.nameVal)) {
         this.dialogFlag = true;
-        this.dialog = "真实的中文姓名";
+        this.dialog = "请输入真实的中文姓名";
         return false;
       } //正则判断手机号
       if (
@@ -129,7 +132,7 @@ export default Vue.extend({
         !/^1([38]\d|5[0-35-9]|7[3678])\d{8}$/.test(this.phoneVal)
       ) {
         this.dialogFlag = true;
-        this.dialog = "真实的手机号码";
+        this.dialog = "请输入真实的手机号码";
         return false;
       }
       //得到选中的城市类型
@@ -141,6 +144,15 @@ export default Vue.extend({
             return item.dealerId;
           })
           .join(",");
+
+      //判断城市类型是否选择
+      if (dealer === "") {
+        this.dialogFlag = true;
+        this.dialog = "请先选择报价经销商";
+        return false;
+      }
+
+      //需要传递的参数
       const obj = {
         carid: this.carId,
         mobile: this.phoneVal,
@@ -166,6 +178,12 @@ export default Vue.extend({
     },
     trueBtn() {
       this.succedDia = false;
+    },
+    headerBtn(){
+      this.serverFlag = true;
+    },
+    serverBtn(){
+      this.serverFlag = false;
     }
   },
   created() {

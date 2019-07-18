@@ -13,10 +13,9 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
-import { mapActions, mapState, mapMutations } from "vuex";
 
 export default Vue.extend({
-  props: ["dialog"],
+  props: [],
   data() {
     return {};
   },

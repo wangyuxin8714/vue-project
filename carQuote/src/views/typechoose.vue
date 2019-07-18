@@ -51,7 +51,7 @@ export default Vue.extend({
   mounted() {},
   methods: {
     //过滤数据
-    filterList(ind: Number) {
+    filterList(ind: any) {
       const list:any = JSON.parse(window.localStorage.getItem("carlist"));
       this.carlist = list.filter((item:any) => {
         item.contlist = item.contlist.filter(

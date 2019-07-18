@@ -1,47 +1,60 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from '@/views/Home.vue'
-import CarDetail from '@/views/cardetail.vue'
-import Img from '@/views/img.vue'
-import Question from "@/views/myAskprice.vue"
-import TypeChoose from "@/views/typechoose.vue" 
-import Color from "@/views/carColor.vue"
-import Type from "@/views/type.vue"
+import Vue from "vue";
+import Router from "vue-router";
 
-Vue.use(Router)
+//loading组件
+
+const Home = () => import("@/views/Home.vue");
+const CarDetail = () => import("@/views/cardetail.vue");
+const Img = () => import("@/views/img.vue");
+const Question = () => import("@/views/myAskprice.vue");
+const TypeChoose = () => import("@/views/typechoose.vue");
+const Color = () => import("@/views/carColor.vue");
+const Type = () => import("@/views/type.vue");
+
+Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/typechoose',
-      name: 'typechoose',
+      path: "/typechoose",
+      name: "typechoose",
       component: TypeChoose
-    },{
-      path: '/type',
-      name: 'type',
+    },
+    {
+      path: "/type",
+      name: "type",
       component: Type
-    },{
-      path: '/color',
-      name: 'color',
+    },
+    {
+      path: "/color",
+      name: "color",
       component: Color
-    },{
-      path: '/question',
-      name: 'question',
+    },
+    {
+      path: "/question",
+      name: "question",
       component: Question
-    },{
-      path: '/img',
-      name: 'img',
+    },
+    {
+      path: "/img",
+      name: "img",
       component: Img
-    },{
-      path: '/cardetail',
-      name: 'cardetail',
+    },
+    {
+      path: "/cardetail",
+      name: "cardetail",
       component: CarDetail
-    },{
-      path: '/',
-      name: 'home',
+    },
+    {
+      path: "/",
+      name: "home",
       component: Home
+    },
+    {
+      path: "*",
+      redirect: "/"
     }
   ]
-})
+});
