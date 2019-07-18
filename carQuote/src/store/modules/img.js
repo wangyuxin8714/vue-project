@@ -25,7 +25,6 @@ const actions = {
   //获取颜色
   async getColor({ commit },payload) {
     const res = await getColor(payload);
-    console.log(res)
     commit("getCarColor", res.data);
     return res
   },

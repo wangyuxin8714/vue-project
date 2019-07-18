@@ -30,16 +30,13 @@ const mutations = {
         window.localStorage.setItem("yearData", JSON.stringify(state.yearData));
     },
     getYearTab(state,payload){
-      console.log("payload",payload)
       let arr={}
       arr={...arr,...state.carDetail}
       if(payload!=="全部"){
-        console.log("111111")
         arr.list=arr.list.filter(item=>item.market_attribute.year===payload)
       }
       state.carlist=[]
       arr.list.forEach((item)=>{
-        console.log("222222")
         let ind=state.carlist.findIndex(val=>val.title===(item.exhaust_str+"/"+item.max_power_str+" "+item.inhale_type))
         if(ind===-1){
           state.carlist.push({

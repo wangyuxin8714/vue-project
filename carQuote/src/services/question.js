@@ -24,3 +24,11 @@ export let getClickList = params => {
     `/v1-city-alllist.html?provinceid=${params.provinceid}`
   );
 };
+
+//点击按钮的接口--提交
+export let submitLower = params => {
+  return request.get(
+    `/h2-submit-lowprice.html?carid=${params.carid}&mobile=${params.mobile}&dealerids=${params.dealerids}
+    &location=${params.location}&carname=${params.carname}&locationid=${params.locationid}&name=${params.name}`
+  );
+};

@@ -11,7 +11,11 @@
     <div class="content" v-for="(item,index) in carlist" :key="index">
       <p>{{item.title}}</p>
       <ul>
-        <li v-for="(val) in item.contlist" :key="val.car_id" @click="goToQuestion(val.car_id)">
+        <li
+          v-for="(val) in item.contlist"
+          :key="val.car_id"
+          @click="goToQuestion(val.car_id,val.tit)"
+        >
           <p class="carType_first">
             <span>{{val.tit}}</span>
             <b>{{val.dealer_price_min}}</b>
@@ -28,7 +32,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { mapActions, mapState, mapMutations } from "vuex";
-import { constants } from "fs";
+
 
 export default Vue.extend({
   props: [],
@@ -46,11 +50,11 @@ export default Vue.extend({
   mounted() {},
   methods: {
     //过滤数据
-    filterList(ind) {
-      const list = JSON.parse(window.localStorage.getItem("carlist"));
-      this.carlist = list.filter(item => {
+    filterList(ind: Number) {
+      const list:any = JSON.parse(window.localStorage.getItem("carlist"));
+      this.carlist = list.filter((item:any) => {
         item.contlist = item.contlist.filter(
-          val => val.year === this.yearData[ind]
+          (val:any) => val.year === this.yearData[ind]
         );
         if (item.contlist.length > 0) {
           return item;
@@ -59,11 +63,11 @@ export default Vue.extend({
         }
       });
     },
-    goToQuestion(id) {
-      this.$router.replace("/question");
-      this.$bus.$emit("getType", { id });
+    goToQuestion(id: any, tit: any) {
+      this.$router.push({ name: "question", params: { id } });
+      this.$bus.$emit("getType", { id, tit });
     },
-    tabYear(ind) {
+    tabYear(ind: number) {
       this.ind = ind;
       this.filterList(ind);
     }

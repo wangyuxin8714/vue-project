@@ -2,7 +2,8 @@ import {
   getQuestionData,
   getCityData,
   getAllCity,
-  getClickList
+  getClickList,
+  submitLower
 } from "../../services/";
 
 const state = {
@@ -10,7 +11,8 @@ const state = {
   cityObj: {},
   allCity: [],
   clickData: [],
-  showCity: false
+  showCity: false,
+  submitCode: 0
 };
 
 const getters = {};
@@ -40,6 +42,13 @@ const actions = {
   async getClickList({ commit }, payload) {
     const data = await getClickList(payload);
     commit("getClicks", data.data);
+  },
+
+  //获取点击城市的数据
+  async submitLower({ commit }, payload) {
+    const data = await submitLower(payload);
+    // console.log(data);
+    commit("submitData", data.code === 1 ? 1 : -1);
   }
 };
 //同步
@@ -74,6 +83,9 @@ const mutations = {
   },
   changeShowCity(state, payload) {
     state.showCity = payload;
+  },
+  submitData(state, payload) {
+    state.submitCode = payload;
   }
 };
 

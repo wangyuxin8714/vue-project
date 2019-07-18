@@ -55,40 +55,50 @@
         </div>
       </div>
       <footer class="wrap_foot">
-        <button>询最低价</button>
+        <button @click="confimBtn">询最低价</button>
       </footer>
     </div>
 
     <my-chooseCity v-if="showCity"/>
+    <my-dailog v-if="dialogFlag" :dialog="dialog" @goodBtn="goodBtn"/>
+    <successDialog v-if="succedDia" @trueBtn="trueBtn"/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import { mapActions, mapState, mapMutations } from "vuex";
-import myChooseCity from "@/components/chooseCIty.vue";
+import myChooseCity from "@/components/chooseCity.vue";
+import myDailog from "@/components/dailog.vue";
+import successDialog from "@/components/successDialog.vue";
 
 export default Vue.extend({
   name: "myAskprice",
-  components: { myChooseCity },
+  components: { myChooseCity, myDailog, successDialog },
   data() {
     return {
       cityName: "北京",
       cityId: "201",
       carId: this.$route.params.id,
       nameVal: "",
-      phoneVal: ""
+      phoneVal: "",
+      dialogFlag: false,
+      dialog: "",
+      typeTit: "",
+      succedDia: false
     };
   },
   computed: {
     ...mapState({
       questionObj: (state: any) => state.question.questionObj,
-      showCity: (state: any) => state.question.showCity
+      showCity: (state: any) => state.question.showCity,
+      submitCode: (state: any) => state.question.submitCode
     })
   },
   methods: {
     ...mapActions({
-      getQuestionData: "question/getQuestionData"
+      getQuestionData: "question/getQuestionData",
+      submitLower: "question/submitLower"
     }),
     ...mapMutations({
       changeShowCity: "question/changeShowCity",
@@ -99,7 +109,7 @@ export default Vue.extend({
       this.changeShowCity(true);
     },
     //点击圆圈选中与否
-    sigleChoose(flag, index) {
+    sigleChoose(flag: any, index: Number) {
       this.changeFlag({ flag, index });
     },
     //点击到查看类型页面
@@ -110,14 +120,52 @@ export default Vue.extend({
     confimBtn() {
       //正则匹配姓名
       if (this.nameVal === "" && !/^[\u4E00-\u9FA5]{2,4}$/.test(this.nameVal)) {
+        this.dialogFlag = true;
+        this.dialog = "真实的中文姓名";
         return false;
       } //正则判断手机号
       if (
         this.phoneVal === "" &&
         !/^1([38]\d|5[0-35-9]|7[3678])\d{8}$/.test(this.phoneVal)
       ) {
+        this.dialogFlag = true;
+        this.dialog = "真实的手机号码";
         return false;
       }
+      //得到选中的城市类型
+      const dealer =
+        this.questionObj.list &&
+        this.questionObj.list
+          .filter((item: any) => item.flag === true)
+          .map((item: any) => {
+            return item.dealerId;
+          })
+          .join(",");
+      const obj = {
+        carid: this.carId,
+        mobile: this.phoneVal,
+        dealerids: dealer,
+        location: this.cityName,
+        carname:
+          this.questionObj.details.market_attribute.year +
+          "款" +
+          this.questionObj.details.car_name,
+        locationid: this.cityId,
+        name: this.nameVal
+      };
+
+      //传递接口
+      this.submitLower(obj);
+
+      if (this.submitCode === 1) {
+        this.succedDia = true;
+      }
+    },
+    goodBtn() {
+      this.dialogFlag = false;
+    },
+    trueBtn() {
+      this.succedDia = false;
     }
   },
   created() {
@@ -145,6 +193,7 @@ export default Vue.extend({
           cityId: this.cityId
         });
       }
+      this.typeTit = res.tit;
     });
   }
 });
