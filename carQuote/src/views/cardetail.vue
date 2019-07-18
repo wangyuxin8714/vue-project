@@ -46,6 +46,7 @@ import Vue from 'vue'
 import {mapState,mapMutations,mapActions} from "vuex"
 
 export default Vue.extend({
+    name: "cardetail",
     data(){
         return {
             ind:0
@@ -60,23 +61,30 @@ export default Vue.extend({
     },
     methods:{
         ...mapMutations({
-            getYearTab:"detail/getYearTab"
+            getYearTab:"detail/getYearTab",
+            saveCarModel:"img/saveCarModel",
+            nameSave:"img/nameSave",
         }),
         ...mapActions({
             getImgList:"img/getImgList",
             getCarDetail: "detail/getCarDetail"
         }),
+        // 跳转询问页
         goQuestion(id:any){
             this.$router.push({name:"question",params:{id}})
         },
+        // 年份tab切换
         yearTab(ind:any,name:any){
             this.ind=ind,
             this.getYearTab(name)
         },
+        // 跳转图片页
         async goImg(){
             let data=await this.getImgList(this.carDetail.SerialID)
             if(data.code===1){
                 this.$router.push({name:"img",params:{id:this.carDetail.SerialID}})
+                this.saveCarModel("")
+                this.nameSave("")
             }
         }
     },
@@ -84,8 +92,7 @@ export default Vue.extend({
         let id=window.sessionStorage.getItem("SerialID")
         this.getCarDetail(id)
         this.getYearTab("全部")
-    },
-    mounted(){}
+    }
 })
 </script>
 <style scoped lang="scss">
@@ -175,6 +182,9 @@ export default Vue.extend({
         }
         ul{
             background: #fff;
+            li:last-child{
+                border: 0;
+            }
             li{
                 padding: 0 .2rem;
                 border-bottom: .18rem solid #f4f4f4;

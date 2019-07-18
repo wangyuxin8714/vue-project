@@ -34,6 +34,7 @@ export default Vue.extend({
     ...mapActions({
       getCarDetail: "detail/getCarDetail"
     }),
+    //点击汽车列表，跳转汽车详情
     async goDetail(id: any) {
       window.sessionStorage.setItem("SerialID",id)
       let data = await this.getCarDetail(id);
@@ -41,9 +42,11 @@ export default Vue.extend({
         this.$router.push("/cardetail");
       }
     },
+    //获取滑动开始x坐标
     touchStart(e: any) {
       this.startloca = e.touches[0].clientX;
     },
+    // 获取移动x坐标
     touchMove(e: any) {
       if (e.touches[0].clientX - this.startloca > 50) {
         this.$bus.$emit("width", {

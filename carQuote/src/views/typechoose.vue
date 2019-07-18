@@ -31,6 +31,7 @@ import { mapActions, mapState, mapMutations } from "vuex";
 import { constants } from "fs";
 
 export default Vue.extend({
+  name: "typechoose",
   props: [],
   data() {
     return {

@@ -11,17 +11,23 @@ const getters = {};
 //异步
 const actions = {
   //获取汽车详情
-  async getCarDetail({ commit }, payload) {
-    const res = await getCarDetail(payload);
-    commit("updateCarDetail", res.data);
-      return res
+    async getCarDetail({ commit }, payload) {
+        const res = await getCarDetail(payload);
+        commit("updateCarDetail", res.data);
+        return res
     },
   
 };
 //同步
 const mutations = {
+    //获取汽车详情
     updateCarDetail(state,payload){
         state.carDetail=payload
+        //处理图片路径
+        if(state.carDetail.CoverPhoto.search(/\{0\}/)!==-1){
+          state.carDetail.CoverPhoto=state.carDetail.CoverPhoto.slice(0,state.carDetail.CoverPhoto.search(/\{0\}/))+state.carDetail.CoverPhotoSize+".jpg"
+        }
+        //过滤出图片
         state.carDetail.list.forEach((item)=>{
           state.yearList.push(item.market_attribute.year)
         })
@@ -29,17 +35,16 @@ const mutations = {
         state.yearData=state.yearList.slice(1)
         window.localStorage.setItem("yearData", JSON.stringify(state.yearData));
     },
+    //通过年份过滤详情数据，处理数据
     getYearTab(state,payload){
-      console.log("payload",payload)
       let arr={}
       arr={...arr,...state.carDetail}
       if(payload!=="全部"){
-        console.log("111111")
         arr.list=arr.list.filter(item=>item.market_attribute.year===payload)
       }
       state.carlist=[]
+      //处理数据
       arr.list.forEach((item)=>{
-        console.log("222222")
         let ind=state.carlist.findIndex(val=>val.title===(item.exhaust_str+"/"+item.max_power_str+" "+item.inhale_type))
         if(ind===-1){
           state.carlist.push({
@@ -65,6 +70,7 @@ const mutations = {
           })
         }
       })
+      //通过油量排序
       state.carlist=state.carlist.sort((a,b)=>a.exhaust_str-b.exhaust_str)
       window.localStorage.setItem("carlist", JSON.stringify(state.carlist));
     }

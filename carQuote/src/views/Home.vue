@@ -19,7 +19,7 @@
       ref="spelling"
     >
       <span>#</span>
-      <span v-for="(item,key,index) in listData" :key="index">{{key}}</span>
+      <span  v-for="(item,key,index) in listData" :data-id="index" :key="index">{{key}}</span>
     </div>
     <p v-if="showFlag" class="showList">{{current}}</p>
     <my-CarList :styles="styles"></my-CarList>
@@ -58,6 +58,7 @@ export default Vue.extend({
       getListData: "index/getListData",
       getCarList: "index/getCarList"
     }),
+    // 点击品牌汽车列表显示
     async drawerFlag(id: any) {
       let data: any = await this.getCarList(id);
       if (data.code === 1) {
@@ -71,7 +72,6 @@ export default Vue.extend({
       this.showFlag = true;
       this.touchmove(e);
     },
-
     touchmove(e: any) {
       let dataLength = this.$refs.spelling.children.length;
       let pageY = e.touches[0].pageY;
@@ -90,7 +90,6 @@ export default Vue.extend({
       this.current = this.$refs.spelling.children[letterIndex].innerHTML;
       this.sec.scrollToElement(this.$refs.secList[letterIndex - 1], 200);
     },
-
     touchend(e: any) {
       this.showFlag = false;
       this.current = "";
