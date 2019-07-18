@@ -66,7 +66,7 @@ export default Vue.extend({
     dialogClick(e: any) {
       if (e.target !== e.currentTarget) {
         const onlyObj = this.clickData.find(
-          item => item.CityName === e.target.innerHTML
+          (item:any) => item.CityName === e.target.innerHTML
         );
         //传递城市id与城市名称
         this.$bus.$emit("getCity", {
