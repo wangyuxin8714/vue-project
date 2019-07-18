@@ -1,10 +1,11 @@
-import { getImgList,getAllImgList,getColor,colorSelect } from "../../services";
+import { getImgList,getAllImgList,getColor,colorSelect,getCarModelImg } from "../../services";
 
 const state = {
   imgList:[],
   imgAllList:{},
   carColor:[],
-  name:"颜色"
+  name:"",
+  carModel:""
 };
 
 const getters = {};
@@ -34,9 +35,20 @@ const actions = {
     commit("getimg", res.data);
     return res
   },
+  //车款选择
+  async getCarModelImg({ commit },payload) {
+    let res = await getCarModelImg(payload);
+    commit("getimg", res.data);
+    return res
+  },
 };
 //同步
 const mutations = {
+  //车款名保存
+  saveCarModel(state,payload){
+    state.carModel=payload
+  },
+  //颜色名保存
   nameSave(state,payload){
     state.name=payload
   },
@@ -45,6 +57,7 @@ const mutations = {
     state.imgList=payload
     state.imgList.forEach(val=>{
       val.List.forEach(item=>{
+        //处理图片路径
         item.Url=item.Url.slice(0,item.Url.search(/\{0\}/))+item.LowSize+".jpg"
       })
     })
@@ -52,6 +65,7 @@ const mutations = {
   //获取全部图片列表
   getAllImg(state,payload){
     payload.List.forEach(item=>{
+      //处理图片路径
       item.Url=item.Url.slice(0,item.Url.search(/\{0\}/))+item.LowSize+".jpg"
     })
     if(payload.Page===2){

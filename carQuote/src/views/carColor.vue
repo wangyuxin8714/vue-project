@@ -23,14 +23,8 @@
 import Vue from 'vue'
 import {mapState,mapActions,mapMutations} from "vuex"
 
-
 export default Vue.extend({
-    props:{
-
-    },
-    components:{
-
-    },
+    name: "carColor",
     data(){
         return {
             ind:0
@@ -49,20 +43,25 @@ export default Vue.extend({
             colorSelect:"img/colorSelect",
             getImgList:"img/getImgList"
         }),
+        // 颜色tab切换
         colorTab(ind:any){
             this.ind=ind
         },
+        // 点击颜色，获取对应的数据，返回图片页
         async colorSelects(id:any,name:any){
             let data=await this.colorSelect({
                 SerialID: this.$route.params.id,
                 ColorID: id
             })
+            // 保存颜色名
             this.nameSave(name)
             if(data.code===1){
                 this.$router.push({name:"img",params:{id:this.$route.params.id}})
             }
         },
+        // 点击全部颜色，获取全部数据，返回图片页
         async goImg(){
+            this.nameSave("全部颜色")
             let id:any=window.sessionStorage.getItem("SerialID")
             let data=await this.getImgList(id)
             if(data.code===1){
@@ -72,9 +71,6 @@ export default Vue.extend({
     },
     created(){
         this.ind=0
-    },
-    mounted(){
-
     }
 })
 </script>

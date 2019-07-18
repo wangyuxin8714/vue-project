@@ -35,6 +35,7 @@ import { mapActions, mapState, mapMutations } from "vuex";
 
 
 export default Vue.extend({
+  name: "typechoose",
   props: [],
   data() {
     return {

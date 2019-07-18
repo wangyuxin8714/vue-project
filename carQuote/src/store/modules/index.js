@@ -8,10 +8,12 @@ const state = {
 const getters = {};
 //异步
 const actions = {
+  //获取首页汽车品牌
   async getListData({ commit }) {
     const data = await getListData();
     commit("getLists", data.data);
   },
+  //获取汽车列表
   async getCarList({commit},payload){
     let res=await getCarList(payload)
     commit("updateCarList",res.data)
@@ -20,6 +22,7 @@ const actions = {
 };
 //同步
 const mutations = {
+  //获取首页汽车品牌
   getLists(state, payload) {
     var arr = [];
     //过滤数据  获取字母
@@ -49,6 +52,7 @@ const mutations = {
     }
     return (state.listData = obj);
   },
+  //获取汽车列表
   updateCarList(state,payload){
     state.carList=payload
   }

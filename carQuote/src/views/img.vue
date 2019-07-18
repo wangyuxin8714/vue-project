@@ -3,10 +3,12 @@
         <div class="car_img">
             <div class="tit">
                 <p @click="goColor">
-                    <span>{{name}}</span>
+                    <span v-if="name">{{name}}</span>
+                    <span v-else>颜色</span>
                 </p>
                 <p @click="goCarModel">
-                    <span>车款</span>
+                    <span v-if="carModel">{{carModel}}</span>
+                    <span v-else>车款</span>
                 </p>
             </div>
             <div class="img_cont">
@@ -51,13 +53,9 @@ import Vue from 'vue'
 import {mapState,mapActions} from "vuex"
 import Swiper from "swiper"
 import "swiper/dist/css/swiper.min.css"
+
 export default Vue.extend({
-    props:{
-
-    },
-    components:{
-
-    },
+    name: "imgs",
     data(){
         return {
             flag:false,
@@ -66,7 +64,7 @@ export default Vue.extend({
             pageSize:30,
             id:0,
             num:0,
-            count:0
+            count:0,
         }
     },
     computed:{
@@ -74,6 +72,7 @@ export default Vue.extend({
             imgList:(state:any)=>state.img.imgList,
             imgAllList:(state:any)=>state.img.imgAllList,
             name:(state:any)=>state.img.name,
+            carModel:(state:any)=>state.img.carModel,
             carDetail:(state:any)=>state.detail.carDetail
         })
     },
@@ -82,9 +81,11 @@ export default Vue.extend({
             getAllImgList:"img/getAllImgList",
             getColor:"img/getColor"
         }),
+        // 轮播图的隐藏
         imgDetailHead(){
             this.imgflag=false;
         },
+        // 点击详情列表，轮播图的显示
         async imgDetailShow(id:any,ind:any,count:any){
             const that=this
             let data=await this.getAllImgList({
@@ -92,6 +93,7 @@ export default Vue.extend({
                 ImageID: id,
                 Page: 1,
                 PageSize: this.pageSize,
+                CarID: this.$route.params.carid||0
             })
             if(data.code===1){
                 this.imgflag=true;
@@ -99,6 +101,7 @@ export default Vue.extend({
                     let mySwiper=new Swiper(".img_detail",{
                         on: {
                             slideChangeTransitionEnd: function(){
+                                // 获取轮播当前图片的对应下标
                                 that.num=mySwiper.activeIndex+1
                                 if(mySwiper.activeIndex+1===(that.pageSize*that.page-5)){
                                     that.getAllImgList({
@@ -106,6 +109,7 @@ export default Vue.extend({
                                         ImageID: that.imgAllList.ID,
                                         Page: that.page++,
                                         PageSize: that.pageSize,
+                                        CarID: that.$route.params.carid||0
                                     })
                                 }
                             },
@@ -113,14 +117,16 @@ export default Vue.extend({
                     })
                     this.num=ind+1
                     this.count=count
+                    // 显示当前下标对应的图片
                     mySwiper.slideTo(ind,0)
-                    
                 })
             }
         },
+        // 跳转询问页
         goQuestion(id:any){
             this.$router.push({name:"question",params:{id}})
         },
+        // 点击初始列表，轮播图的显示
         imgShow(ind:any,count:any){
             const that=this
             this.imgflag=true;
@@ -128,6 +134,7 @@ export default Vue.extend({
                 let mySwiper=new Swiper(".img_detail",{
                         on: {
                             slideChangeTransitionEnd: function(){
+                                // 获取轮播当前图片的对应下标
                                 that.num=mySwiper.activeIndex+1
                                 if(mySwiper.activeIndex+1===25){
                                     that.getAllImgList({
@@ -135,6 +142,7 @@ export default Vue.extend({
                                         ImageID: that.imgAllList.ID,
                                         Page: that.page++,
                                         PageSize: that.pageSize,
+                                        CarID: that.$route.params.carid||0
                                     })
                                 }
                             },
@@ -142,12 +150,17 @@ export default Vue.extend({
                     })
                 this.num=ind+1
                 this.count=count
+                // 显示当前下标对应的图片
                 mySwiper.slideTo(ind,0)
             })
         },
+        // 上拉加载
         upscroll(){
+            // 获取视口的高度
             let clientHeight:any = document.documentElement.clientHeight || document.body.clientHeight;
+            // 获取滚动的距离
             let scrollT:any=this.$refs.img.scrollTop;
+            // 获取滚动元素的高度
             let scrollHeight:any = this.$refs.img.scrollHeight;
             if(scrollT+clientHeight+0.5>=scrollHeight){
                 this.page++;
@@ -156,9 +169,11 @@ export default Vue.extend({
                     ImageID: this.id,
                     Page: this.page,
                     PageSize: this.pageSize,
+                    CarID: this.$route.params.carid||0
                 })
             }
         },
+        // 图片详情列表的显示 
         async imgListFlag(id:any){
             this.page=1
             let data=await this.getAllImgList({
@@ -166,12 +181,14 @@ export default Vue.extend({
                 ImageID: id,
                 Page: 1,
                 PageSize: this.pageSize,
+                CarID: this.$route.params.carid||0
             })
             if(data.code===1){
                 this.flag=true;
                 this.id=id
             }
         },
+        // 跳转颜色选择页获取数据
         async goColor(){
             let id:any=window.sessionStorage.getItem("SerialID")
             let data=await this.getColor(id)
@@ -179,6 +196,7 @@ export default Vue.extend({
                 this.$router.push({name:"color",params:{id}})
             }
         },
+        // 跳转车款选择页
         goCarModel(){
             this.$router.push({name:"type"})
         }
@@ -186,13 +204,9 @@ export default Vue.extend({
     created(){
         this.flag=false;
         this.imgflag=false
-    },
-    mounted(){
-        
     }
 })
 </script>
-
 <style scoped lang="scss">
 .wrap {
   width: 100%;

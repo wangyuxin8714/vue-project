@@ -11,6 +11,7 @@
       <p>{{item.title}}</p>
       <ul>
         <li v-for="(val) in item.contlist" :key="val.car_id"
+        @click="selectCarModel(val.car_id,val.tit)"
         >
           <p class="carType_first">
             <span>{{val.tit}}</span>
@@ -29,7 +30,7 @@
 import Vue from "vue";
 import { mapActions, mapState, mapMutations } from "vuex";
 export default Vue.extend({
-  props: [],
+  name: "type",
   data() {
     return {
       ind:0
@@ -43,27 +44,44 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations({
-      getYearTab:"detail/getYearTab"
+      getYearTab:"detail/getYearTab",
+      saveCarModel:"img/saveCarModel"
     }),
     ...mapActions({
-      getImgList:"img/getImgList"
+      getImgList:"img/getImgList",
+      getCarModelImg:"img/getCarModelImg",
     }),
+    // 通过年份tab切换
     yearTab(year:any,ind:any){
       this.ind=ind
       this.getYearTab(year)
     },
+    // 点击全部车款，获取全部数据，返回图片页
     async goImg(){
+      this.saveCarModel("全部车款")
       let id:any=window.sessionStorage.getItem("SerialID")
       let data=await this.getImgList(id)
       if(data.code===1){
           this.$router.push({name:"img",params:{id}})
       }
+    },
+    // 点击车款，获取对应的数据，返回图片页
+    async selectCarModel(carid:any,tit:any){
+      let id:any=window.sessionStorage.getItem("SerialID")
+      let data=await this.getCarModelImg({
+        SerialID: id,
+        CarID: carid
+      })
+      // 保存车款名
+      this.saveCarModel(tit)
+      if(data.code===1){
+        this.$router.push({name:"img",params:{id,carid}})
+      }
+
     }
   },
   created() {
     this.getYearTab(this.yearData[0])
-  },
-  mounted() {
   }
 });
 </script>
