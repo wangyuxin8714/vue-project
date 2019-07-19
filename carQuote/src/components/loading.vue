@@ -1,6 +1,6 @@
 <template>
-  <div class="mask">
-    <div class="dailog">
+  <div class="maskLoading">
+    <div class="dailogLoading">
       <img src="/img/timg.gif" alt>
       <p>加载中...</p>
     </div>
@@ -22,14 +22,14 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.mask {
+.maskLoading {
   width: 100%;
   height: 100%;
   position: fixed;
   left: 0;
   top: 0;
   z-index: 200;
-  .dailog {
+  .dailogLoading {
     width: 30%;
     position: absolute;
     left: 50%;

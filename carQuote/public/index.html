@@ -1,36 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
-     <meta name="referrer" content="no-referrer" />
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title>汽车报价大全</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        box-sizing: border-box;
+        font-size: 0.16rem;
+      }
+
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+      }
+
+      .list {
+        width: 100%;
+      }
+      .list h6 {
+        height: 20px;
+        background: #f4f4f4;
+        width: 100%;
+        margin-top: 5px;
+      }
+      .list dl {
+        width: 90%;
+        height: 50px;
+        margin: 0 auto;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+      }
+      .list dl dt {
+        height: 30px;
+        width: 50px;
+        border: 2px solid #f4f4f4;
+        margin-right: 20px;
+      }
+      .list dl dd {
+        height: 30px;
+        background: #f4f4f4;
+      }
+      .mask1 {
+        width: 27px;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        right: -1px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .mask1 span {
+        width: 15px;
+        height: 10px;
+        display: inline-block;
+        line-height: 0.4rem;
+        padding-left: 0.3rem;
+        background: #f4f4f4;
+        box-sizing: border-box;
+        margin-top: 7px;
+      }
+
+      .maskLoading {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 200;
+      }
+      .maskLoading .dailogLoading {
+        width: 30%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        color: #000;
+        border-radius: 5px;
+        padding: 0 5px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .maskLoading .dailogLoading img {
+        width: 100%;
+      }
+      .maskLoading .dailogLoading p {
+        width: 100%;
+        text-align: center;
+        height: 30px;
+        font-size: 16px;
+        line-height: 30px;
+      }
+    </style>
     <script>
       // 计算rem
-      var fun = function (doc, win) {
-      var docEl = doc.documentElement,
-        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-        recalc = function () {
-          var clientWidth = docEl.clientWidth;
-          if (!clientWidth) return;
+      var fun = function(doc, win) {
+        var docEl = doc.documentElement,
+          resizeEvt =
+            "orientationchange" in window ? "orientationchange" : "resize",
+          recalc = function() {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
             //这里是假设在750px宽度设计稿的情况下，1rem = 100px；
             //可以根据实际需要修改
-            docEl.style.fontSize = (clientWidth / 750) * 100 + 'px';
+            docEl.style.fontSize = (clientWidth / 750) * 100 + "px";
           };
         if (!doc.addEventListener) return;
         win.addEventListener(resizeEvt, recalc, false);
-        doc.addEventListener('DOMContentLoaded', recalc, false);
-      }
+        doc.addEventListener("DOMContentLoaded", recalc, false);
+      };
       fun(document, window);
     </script>
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but vue-project doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong
+        >We're sorry but vue-project doesn't work properly without JavaScript
+        enabled. Please enable it to continue.</strong
+      >
     </noscript>
-    <div id="app"></div>
+
+    <!-- 骨架图 -->
+     <div id="app">
+      <div class="list">
+        <h6></h6>
+        <div class="dl">
+          <dl>
+            <dt></dt>
+            <dd style="width:70px;"></dd>
+          </dl>
+          <dl>
+            <dt></dt>
+            <dd style="width:120px;"></dd>
+          </dl>
+          <dl>
+            <dt></dt>
+            <dd style="width:110px;"></dd>
+          </dl>
+          <dl>
+            <dt></dt>
+            <dd style="width:120px;"></dd>
+          </dl>
+          <dl>
+            <dt></dt>
+            <dd style="width:120px;"></dd>
+          </dl>
+        </div>
+      </div>
+      <div class="list">
+        <h6></h6>
+        <div class="dl">
+          <dl>
+            <dt></dt>
+            <dd style="width:100px;"></dd>
+          </dl>
+          <dl>
+            <dt></dt>
+            <dd style="width:90px;"></dd>
+          </dl>
+          <dl>
+            <dt></dt>
+            <dd style="width:80px;"></dd>
+          </dl>
+          <dl>
+            <dt></dt>
+            <dd style="width:60px;"></dd>
+          </dl>
+          <dl>
+            <dt></dt>
+            <dd style="width:70px;"></dd>
+          </dl>
+          <dl>
+            <dt></dt>
+            <dd style="width:110px;"></dd>
+          </dl>
+          <dl>
+            <dt></dt>
+            <dd style="width:120px;"></dd>
+          </dl>
+        </div>
+      </div>
+      <div class="mask1">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    
+
+    <!-- <div id="app">
+      <div class="maskLoading">
+        <div class="dailogLoading">
+          <img src="/img/timg.gif" alt />
+          <p>加载中...</p>
+        </div>
+      </div>
+    </div> -->
+
     <!-- built files will be auto injected -->
   </body>
 </html>
