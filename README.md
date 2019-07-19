@@ -56,5 +56,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     - 单选按钮
 
 ##效果图
-![image](/carQuote/public/img/gu.png) ![image](/public/img/home.png) ![image](/public/img/home2.png) ![image](/public/img/detail.png) ![image](/public/img/img.png) ![image](/public/img/chooseColor.png) ![image](/public/img/chooseCar.png) ![image](/public/img/choose1.png) ![image](/public/img/swiper.png) ![image](/public/img/question.png) ![image](/public/img/type.png) ![image](/public/img/city.png)
+![image](/carQuote/public/img/gu.png) ![image](/carQuote/public/img/home.png) ![image](/carQuote/public/img/home2.png) ![image](/carQuote/public/img/detail.png) ![image](/carQuote/public/img/img.png) ![image](/carQuote/public/img/chooseColor.png) ![image](/carQuote/public/img/chooseCar.png) ![image](/carQuote/public/img/choose1.png) ![image](/carQuote/public/img/swiper.png) ![image](/carQuote/public/img/question.png) ![image](/carQuote/public/img/type.png) ![image](/carQuote/public/img/city.png)
 ![image](/public/img/dialog1.png) ![image](/public/img/success.png) ![image](/public/img/soft.png)
