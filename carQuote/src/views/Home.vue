@@ -1,27 +1,29 @@
 <template>
   <div class="wrap">
-    <div class="list">
-      <div v-for="(item,index) in listData" :key="index" ref="secList">
-        <h6>{{index}}</h6>
-        <ul>
-          <li v-for="(val,ind) in item" :key="ind" @click="drawerFlag(val.MasterID)">
-            <img v-lazy="val.CoverPhoto">
-            <span>{{val.Name}}</span>
-          </li>
-        </ul>
+    <div class="wrapper">
+      <div class="list">
+        <div v-for="(item,index) in listData" :key="index" ref="secList">
+          <h6>{{index}}</h6>
+          <ul>
+            <li v-for="(val,ind) in item" :key="ind" @click="drawerFlag(val.MasterID)">
+              <img v-lazy="val.CoverPhoto">
+              <span>{{val.Name}}</span>
+            </li>
+          </ul>
+        </div>
       </div>
+      <div
+        class="navlist"
+        @touchstart="touchstart"
+        @touchmove="touchmove"
+        @touchend="touchend"
+        ref="spelling"
+      >
+        <span>#</span>
+        <span  v-for="(item,key,index) in listData" :data-id="index" :key="index">{{key}}</span>
+      </div>
+      <p v-if="showFlag" class="showList">{{current}}</p>
     </div>
-    <div
-      class="navlist"
-      @touchstart="touchstart"
-      @touchmove="touchmove"
-      @touchend="touchend"
-      ref="spelling"
-    >
-      <span>#</span>
-      <span  v-for="(item,key,index) in listData" :data-id="index" :key="index">{{key}}</span>
-    </div>
-    <p v-if="showFlag" class="showList">{{current}}</p>
     <my-CarList :styles="styles"></my-CarList>
   </div>
 </template>
@@ -103,7 +105,7 @@ export default Vue.extend({
   created() {
     this.$nextTick(() => {
       this.getListData();
-      this.sec = new BScroll(".wrap", {
+      this.sec = new BScroll(".wrapper", {
         probeType: 3,
         click: true
       });
@@ -112,6 +114,11 @@ export default Vue.extend({
 });
 </script>
 <style lang="scss" scoped>
+.wrapper{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 .wrap {
   width: 100%;
   height: 100%;

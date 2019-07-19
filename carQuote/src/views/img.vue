@@ -99,15 +99,17 @@ export default Vue.extend({
                 this.imgflag=true;
                 this.$nextTick(()=>{
                     let mySwiper=new Swiper(".img_detail",{
+                        observer:true,
                         on: {
                             slideChangeTransitionEnd: function(){
                                 // 获取轮播当前图片的对应下标
                                 that.num=mySwiper.activeIndex+1
                                 if(mySwiper.activeIndex+1===(that.pageSize*that.page-5)){
+                                    that.page+=1
                                     that.getAllImgList({
                                         SerialID: that.$route.params.id||window.sessionStorage.getItem("SerialID"),
                                         ImageID: that.imgAllList.ID,
-                                        Page: that.page++,
+                                        Page: that.page,
                                         PageSize: that.pageSize,
                                         CarID: that.$route.params.carid||0
                                     })
@@ -132,15 +134,17 @@ export default Vue.extend({
             this.imgflag=true;
             this.$nextTick(()=>{
                 let mySwiper=new Swiper(".img_detail",{
+                        observer:true,
                         on: {
                             slideChangeTransitionEnd: function(){
                                 // 获取轮播当前图片的对应下标
                                 that.num=mySwiper.activeIndex+1
                                 if(mySwiper.activeIndex+1===25){
+                                    that.page+=1
                                     that.getAllImgList({
                                         SerialID: that.$route.params.id||window.sessionStorage.getItem("SerialID"),
                                         ImageID: that.imgAllList.ID,
-                                        Page: that.page++,
+                                        Page: that.page,
                                         PageSize: that.pageSize,
                                         CarID: that.$route.params.carid||0
                                     })

@@ -48,10 +48,11 @@ export default Vue.extend({
     },
     // 获取移动x坐标
     touchMove(e: any) {
-      if (e.touches[0].clientX - this.startloca > 50) {
+      if (e.touches[0].clientX - this.startloca > 100) {
         this.$bus.$emit("width", {
-          width: "0",
-          transition: "all .2s ease-in-out"
+          // width: "0",
+          transform: "translateX(100%)",
+          transition: "all .4s ease-in-out"
         });
       }
     }

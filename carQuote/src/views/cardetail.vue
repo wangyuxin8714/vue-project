@@ -164,8 +164,12 @@ export default Vue.extend({
         height: .77rem;
         line-height: .77rem;
         background: #fff;
+        display: flex;
+        // flex-shrink: 1;
+        overflow-x: scroll;
         span{
-            padding-right: .46rem;
+            width: 80px;
+            // padding-right: .46rem;
         }
         .active{
             color: #3aacff;

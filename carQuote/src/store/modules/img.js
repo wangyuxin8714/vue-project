@@ -76,6 +76,7 @@ const mutations = {
   },
   //获取颜色
   getCarColor(state,payload){
+    state.carColor=[]
     for(var k in payload){
       state.carColor.push({
         year:k,
