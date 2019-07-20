@@ -56,7 +56,7 @@ export default Vue.extend({
             // 保存颜色名
             this.nameSave(name)
             if(data.code===1){
-                this.$router.push({name:"img",params:{id:this.$route.params.id}})
+                this.$router.replace({name:"img",params:{id:this.$route.params.id}})
             }
         },
         // 点击全部颜色，获取全部数据，返回图片页
@@ -65,7 +65,7 @@ export default Vue.extend({
             let id:any=window.sessionStorage.getItem("SerialID")
             let data=await this.getImgList(id)
             if(data.code===1){
-                this.$router.push({name:"img",params:{id}})
+                this.$router.replace({name:"img",params:{id}})
             }
         }
     },
