@@ -126,7 +126,7 @@ export default Vue.extend({
         },
         // 跳转询问页
         goQuestion(id:any){
-            this.$router.push({name:"question",params:{id}})
+            this.$router.replace({name:"question",params:{id}})
         },
         // 点击初始列表，轮播图的显示
         imgShow(ind:any,count:any){
@@ -197,12 +197,12 @@ export default Vue.extend({
             let id:any=window.sessionStorage.getItem("SerialID")
             let data=await this.getColor(id)
             if(data.code===1){
-                this.$router.push({name:"color",params:{id}})
+                this.$router.replace({name:"color",params:{id}})
             }
         },
         // 跳转车款选择页
         goCarModel(){
-            this.$router.push({name:"type"})
+            this.$router.replace({name:"type"})
         }
     },
     created(){

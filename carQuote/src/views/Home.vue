@@ -20,7 +20,7 @@
         ref="spelling"
       >
         <span>#</span>
-        <span  v-for="(item,key,index) in listData" :data-id="index" :key="index">{{key}}</span>
+        <span v-for="(item,key,index) in listData" :data-id="index" :key="index">{{key}}</span>
       </div>
       <p v-if="showFlag" class="showList">{{current}}</p>
     </div>
@@ -71,10 +71,13 @@ export default Vue.extend({
       }
     },
     touchstart(e: any) {
-      this.showFlag = true;
       this.touchmove(e);
     },
     touchmove(e: any) {
+      if (e.type === "touchmove") {
+        this.showFlag = true;
+      }
+
       let dataLength = this.$refs.spelling.children.length;
       let pageY = e.touches[0].pageY;
       let letterHeight = ((0.4 * window.innerWidth) / 750) * 100;
@@ -114,7 +117,7 @@ export default Vue.extend({
 });
 </script>
 <style lang="scss" scoped>
-.wrapper{
+.wrapper {
   width: 100%;
   height: 100%;
   overflow: hidden;
