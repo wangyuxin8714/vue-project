@@ -92,7 +92,8 @@ export default Vue.extend({
         let id=window.sessionStorage.getItem("SerialID")
         this.getCarDetail(id)
         this.getYearTab("全部")
-    }
+    },
+    
 })
 </script>
 <style scoped lang="scss">

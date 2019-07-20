@@ -62,7 +62,7 @@ export default Vue.extend({
       let id:any=window.sessionStorage.getItem("SerialID")
       let data=await this.getImgList(id)
       if(data.code===1){
-          this.$router.push({name:"img",params:{id}})
+          this.$router.replace({name:"img",params:{id}})
       }
     },
     // 点击车款，获取对应的数据，返回图片页
@@ -75,7 +75,7 @@ export default Vue.extend({
       // 保存车款名
       this.saveCarModel(tit)
       if(data.code===1){
-        this.$router.push({name:"img",params:{id,carid}})
+        this.$router.replace({name:"img",params:{id,carid}})
       }
 
     }

@@ -20,10 +20,10 @@
         ref="spelling"
       >
         <span>#</span>
-        <span  v-for="(item,key,index) in listData" :data-id="index" :key="index">{{key}}</span>
+        <span v-for="(item,key,index) in listData" :data-id="index" :key="index">{{key}}</span>
       </div>
-      <p v-if="showFlag" class="showList">{{current}}</p>
     </div>
+    <p v-if="showFlag" class="showList">{{current}}</p>
     <my-CarList :styles="styles"></my-CarList>
   </div>
 </template>
@@ -71,7 +71,6 @@ export default Vue.extend({
       }
     },
     touchstart(e: any) {
-      this.showFlag = true;
       this.touchmove(e);
     },
     touchmove(e: any) {
@@ -89,8 +88,12 @@ export default Vue.extend({
       if (letterIndex > dataLength - 1) {
         letterIndex = dataLength - 1;
       }
+
       this.current = this.$refs.spelling.children[letterIndex].innerHTML;
       this.sec.scrollToElement(this.$refs.secList[letterIndex - 1], 200);
+      if(e.type==="touchmove"){
+        this.showFlag = true;
+      }
     },
     touchend(e: any) {
       this.showFlag = false;
