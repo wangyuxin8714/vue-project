@@ -56,7 +56,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     - [X] 单选按钮
 
 
-##效果图
+## 效果图
 
 ![image](/carQuote/public/img/gu.png) ![image](/carQuote/public/img/home.png) ![image](/carQuote/public/img/home2.png) ![image](/carQuote/public/img/detail.png) ![image](/carQuote/public/img/img.png) ![image](/carQuote/public/img/chooseColor.png) ![image](/carQuote/public/img/chooseCar.png) ![image](/carQuote/public/img/choose1.png) ![image](/carQuote/public/img/swiper.png) ![image](/carQuote/public/img/question.png) ![image](/carQuote/public/img/type.png) ![image](/carQuote/public/img/city.png)
 ![image](/carQuote/public/img/dialog1.png) ![image](/carQuote/public/img/success.png) ![image](/carQuote/public/img/soft.png)
